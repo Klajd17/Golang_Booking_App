@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 var conferenceName = "Go Conference 2024" // only for var variable declaration
@@ -31,7 +32,7 @@ func main() {
 		if isValidName && isValidEmail && isValidTickets {
 
 			bookTicket(firstName, lastName, userTickets, email)
-			sendTicket(firstName, lastName, userTickets, email)
+			go sendTicket(firstName, lastName, userTickets, email) // send ticket asynchronously , create a new thread
 
 			var firstNames = getFirstNames()
 			fmt.Printf("The first names of bookings: %v\n", firstNames)
@@ -112,6 +113,8 @@ func bookTicket(firstName string, lastName string, userTickets uint, email strin
 }
 
 func sendTicket(firstName string, lastName string, userTickets uint, email string) {
+	//Add 10 seconds delay to simulate sending email
+	time.Sleep(10 * time.Second)
 	var ticket = fmt.Sprintf("%v ticktes for %v %v\n", userTickets, firstName, lastName)
 	fmt.Println("#####################")
 	fmt.Printf("Sending ticket:\n %v \nto email address %v\n", ticket, email)
