@@ -2,14 +2,21 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 var conferenceName = "Go Conference 2024" // only for var variable declaration
 const conferenceTicket int = 50
 
-var remainingTickets uint = 50              // positive integer
-var bookings = make([]map[string]string, 0) // slice of map
+var remainingTickets uint = 50     // positive integer
+var bookings = make([]UserData, 0) // slice of map
+
+// UserData is a struct that contains user data
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
+}
 
 func main() {
 
@@ -58,7 +65,7 @@ func greetUser() {
 func getFirstNames() []string {
 	firstNames := []string{}
 	for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	return firstNames
 }
@@ -87,12 +94,12 @@ func getUserInput() (string, string, string, uint) {
 func bookTicket(firstName string, lastName string, userTickets uint, email string) {
 	remainingTickets = remainingTickets - userTickets
 
-	//Create a map for a user
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10) // convert uint to string
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
+	}
 
 	bookings = append(bookings, userData)
 
